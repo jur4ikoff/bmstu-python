@@ -90,7 +90,6 @@ class MainWindow(QMainWindow):
             self.set_status_label(f"Ошибка в данных", 0)
             return 1
 
-        print(self.mode,  self.file)
         if self.mode == 0:
             try:
                 self.path = encrypt(self.entered_text, self.file)
@@ -101,9 +100,11 @@ class MainWindow(QMainWindow):
             except Exception as e:
                 self.set_status_label(f"Произошла ошибка {e}", 0)
         elif self.mode == 1:
-            decrypt(self.path)
-
-
+            text = decrypt(self.path)
+            print(text)
+            self.textToCrypt.setPlainText(text)
+            self.mode = 0
+            self.set_status_label(f"Расшифровано, режим шифровки", 0)
 
 
 if __name__ == '__main__':

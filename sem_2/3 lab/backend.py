@@ -10,11 +10,11 @@ import numpy as np
 def encrypt(text, file):
     img = Image.open(file)
     widht, height = img.size[0], img.size[1]
-    arr = numpy.array(img)
+    arr = np.array(img)
     bit_texts = [bin(i)[2:].zfill(8) for i in text.encode() + b'\x00']
 
     flag = False
-    cur_byte, cur_bit = 0, 7
+    cur_byte, cur_bit = 0, 0
     for i in range(widht):
         if flag:
             break
@@ -22,16 +22,16 @@ def encrypt(text, file):
             if flag:
                 break
             for k in range(3):
-                if cur_bit < 0:
+
+                if cur_bit > 7:
                     cur_byte += 1
-                    cur_bit = 7
+                    cur_bit = 0
                 if cur_byte >= len(bit_texts):
                     flag = True
                     break
 
                 bit = bit_texts[cur_byte][cur_bit]
-                cur_bit -= 1
-                print(1)
+                cur_bit += 1
                 if bit == '0':
                     arr[i, j, k] &= 254
                 else:
@@ -69,8 +69,4 @@ def decrypt(file):
                 byte += arr[i, j, k] & 1
                 cur_bit += 1
 
-    print(new_bytes.decode())
-
-
-encrypt("хуйня", "Image.bmp")
-# print(decrypt(os.path.abspath("encode_image.bmp")))
+    return new_bytes.decode()
