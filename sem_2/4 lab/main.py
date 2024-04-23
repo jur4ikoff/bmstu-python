@@ -19,6 +19,7 @@ class Application:
         self.add_canvas()
         self.settings_interface()
         self.c.bind("<B1-Motion>", self.paint)
+
     def init_UI(self):
         self.window.title("Поиск параллельных")
         self.window.geometry(f'{self.window_width}x{self.window_height}')
@@ -34,9 +35,9 @@ class Application:
 
     def settings_interface(self):
         self.frame = Frame(
-            self.window,  # Обязательный параметр, который указывает окно для размещения Frame.
-            padx=20,  # Задаём отступ по горизонтали.
-            pady=20  # Задаём отступ по вертикали.
+            self.window,
+            padx=20,
+            pady=20
         )
         self.frame.pack(expand=True)
 
@@ -107,29 +108,35 @@ class Application:
             self.change_status(2)
         if line != -1:
             self.lines.append(line)
-            self.create_line(line)
+            self.create_line(line, "blue", widht=2)
 
     def create_point(self, point):
         x1, y1 = (point[0] - 2), (point[1] - 2)
         x2, y2 = (point[0] + 2), (point[1] + 2)
         self.c.create_oval(x1, y1, x2, y2, fill="green")
 
-    def create_line(self, line):
-        self.c.create_line(line[0], line[1], line[2], line[3], fill='blue', width=2)
+    def create_line(self, line, color, widht):
+        self.c.create_line(line[0], line[1], line[2], line[3], fill=color, width=widht)
 
     def calculate(self):
         self.points = make_array_unique(self.points)
         self.lines = make_array_unique(self.lines)
-        find_max_line(self.points, self.lines)
-
+        res, x1, y1, x2, y2 = find_max_line(self.points, self.lines)
+        answer = [x1, y1, x2, y2]
+        if res:
+            self.change_status(0)
+        else:
+            self.change_status(1)
+            return
+        print(answer)
+        self.create_line(answer, color="red", widht=3)
 
     def paint(self, event):
         x1, y1 = (event.x - 2), (event.y - 2)
         x2, y2 = (event.x + 2), (event.y + 2)
         self.c.create_oval(x1, y1, x2, y2, fill="green")
         self.points.append([event.x, event.y])
-        time.sleep(0.01)
-
+        time.sleep(0.004)
 
     def change_status(self, res):
         match res:
