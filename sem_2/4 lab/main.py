@@ -1,6 +1,7 @@
 from processing import validate, make_array_unique, find_max_line
 from tkinter import *
 import warnings
+import time
 
 warnings.filterwarnings('ignore')
 
@@ -18,11 +19,6 @@ class Application:
         self.add_canvas()
         self.settings_interface()
         self.c.bind("<B1-Motion>", self.paint)
-        self.btn1.bind("<Enter>", self.test)
-
-    def test(self):
-        print(1)
-
     def init_UI(self):
         self.window.title("Поиск параллельных")
         self.window.geometry(f'{self.window_width}x{self.window_height}')
@@ -124,6 +120,7 @@ class Application:
     def calculate(self):
         self.points = make_array_unique(self.points)
         self.lines = make_array_unique(self.lines)
+        find_max_line(self.points, self.lines)
 
 
     def paint(self, event):
@@ -131,7 +128,8 @@ class Application:
         x2, y2 = (event.x + 2), (event.y + 2)
         self.c.create_oval(x1, y1, x2, y2, fill="green")
         self.points.append([event.x, event.y])
-        find_max_line(self.points, self.lines)
+        time.sleep(0.01)
+
 
     def change_status(self, res):
         match res:
