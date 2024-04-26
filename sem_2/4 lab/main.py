@@ -34,49 +34,29 @@ class Application:
         self.c.pack()
 
     def settings_interface(self):
-        self.frame = Frame(
-            self.window,
-            padx=20,
-            pady=20
-        )
+        self.frame = Frame(self.window, padx=20, pady=20)
         self.frame.pack(expand=True)
 
         self.status_label = Label(self.frame, text="Статус")
         self.status_label.grid(row=2, column=2)
 
-        self.point_header = Label(
-            self.frame,
-            text="Добавление точки"
-        )
+        self.point_header = Label(self.frame, text="Добавление точки")
         self.point_header.grid(row=3, column=1)
 
-        self.point_annotation = Label(
-            self.frame,
-            text="(x1 y1)"
-        )
+        self.point_annotation = Label(self.frame, text="(x1 y1)")
         self.point_annotation.grid(row=4, column=0)
 
-        self.line_header = Label(
-            self.frame,
-            text="Добавление прямой",
-        )
+        self.line_header = Label(self.frame, text="Добавление прямой", )
         self.line_header.grid(row=3, column=4)
 
-        self.line_annotation = Label(
-            self.frame,
-            text="(x1 y1 x2 y2)"
-        )
+        self.line_annotation = Label(self.frame, text="(x1 y1 x2 y2)")
 
         self.line_annotation.grid(row=4, column=3)
 
-        self.point_input = Entry(
-            self.frame,
-        )
+        self.point_input = Entry(self.frame)
         self.point_input.grid(row=4, column=1)
 
-        self.line_input = Entry(
-            self.frame,
-        )
+        self.line_input = Entry(self.frame)
         self.line_input.grid(row=4, column=4)
 
         self.btn1 = Button(self.frame, text='Добавить точку', command=self.add_point)
